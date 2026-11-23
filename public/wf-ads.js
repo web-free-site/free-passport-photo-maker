@@ -4,19 +4,19 @@
   if (window.__wfAds) return;
   window.__wfAds = 1;
   var C = {
-      pop: "https://abscloud.org/1/wf23placeholder0popunder00000000",
-      social: "https://bauval.org/14/wf23placeholder0socialbar0000000",
-      native: "https://bauval.org/21/wf23placeholder0nativebanner0000",
-      nativeId: "container-wf23placeholder0nativebanner0000",
-      smart: "https://araplhn.org/4/wf23placeholder0smartlink0000000",
+      pop: "https://abscloud.org/1/66ae158a9e3fd083a8ecc8373a354348",
+      social: "https://bauval.org/14/3cef0d0f31f4a611ed3c05df241a57fa",
+      native: "https://bauval.org/21/134069cfd8da673bdab38ed31a1e2391",
+      nativeId: "container-134069cfd8da673bdab38ed31a1e2391",
+      smart: "https://araplhn.org/4/f2f1db9fbe94c1df4100a53a2b882f44",
       bannerBase: "https://bauval.org/22/{k}",
       banners: {
-        "728x90": "wf23placeholder0banner728x900000",
-        "468x60": "wf23placeholder0banner468x600000",
-        "300x250": "wf23placeholder0banner300x250000",
-        "160x600": "wf23placeholder0banner160x600000",
-        "160x300": "wf23placeholder0banner160x300000",
-        "320x50": "wf23placeholder0banner320x500000"
+        "728x90": "933304b03cf2a6297aa7ab085a76bf32",
+        "468x60": "2177385dcd87c3ecd745c3159d7d8b72",
+        "300x250": "318d9428dd033b6ef837839e4d5fc974",
+        "160x600": "9d3ca30a3a82555752fa101bb1de8ddb",
+        "160x300": "056b54507f4a1fef1921b8db1924161a",
+        "320x50": "8c0008e8e9f2ca5a26913b80d611799b"
       }
     };
   var d = document;

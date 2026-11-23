@@ -186,6 +186,7 @@ export function SiteFooter({ force = false, path = "/" }: { force?: boolean; pat
           <a href={withLocale("/600x600-photo/", locale)}>{strings(locale).index.links.sixHundred}</a>
           <a href={withLocale("/photo-under-50kb/", locale)}>{strings(locale).index.links.under50}</a>
         </nav>
+        {switchTargets(path).length > 1 ? (
         <nav className="footer-links footer-lang" aria-label={t.languageLabel}>
           <span>{t.languageLabel}:</span>
           {switchTargets(path).map((x) =>
@@ -205,6 +206,7 @@ export function SiteFooter({ force = false, path = "/" }: { force?: boolean; pat
             ),
           )}
         </nav>
+        ) : null}
         <p className="footer-legal">{t.legal}</p>
         <p className="footer-legal">
           Based on{" "}

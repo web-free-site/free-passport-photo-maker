@@ -136,7 +136,8 @@ export const LOCALES: Record<Locale, LocaleInfo> = {
 };
 
 export const DEFAULT_LOCALE: Locale = "en";
-export const LOCALE_CODES = Object.keys(LOCALES) as Locale[];
+// web-free.site tools are English only: do not ship es/pt/hi/bn/ur/ar pages or sitemap entries.
+export const LOCALE_CODES: Locale[] = [DEFAULT_LOCALE];
 /** Locales that get translated static pages (everything except the default). */
 export const TRANSLATED_LOCALES = LOCALE_CODES.filter((l) => l !== DEFAULT_LOCALE);
 
