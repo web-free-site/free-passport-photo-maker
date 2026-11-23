@@ -1,0 +1,1355 @@
+/* The studio. Tokens come from src/ui/styles.css. Colours are tokens only, so system dark and the header toggle look the same.
+   Physical left/right are avoided in favour of logical properties; only the photo ruler and the photo's own coordinates stay physical. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.studio-page {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.studio-page.is-dragging {
+  outline: 2px dashed var(--accent);
+  outline-offset: -10px;
+}
+.studio-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  padding: 24px 0 16px;
+}
+.studio-title {
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.studio-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* Desktop: steps and document over the tools on the left, the photo in the middle, the verdict, download and checks on the right.
+   The DOM is already in phone order (document, photo, verdict and download, checks, tools), so nothing below reorders it. */
+.studio-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 360px;
+  grid-template-rows: auto 1fr;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: clip;
+}
+.studio-top {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  padding: 20px 18px 18px;
+}
+.studio-tools {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+  padding: 0 18px 24px;
+}
+.studio-stage {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--stage);
+  border-inline: 1px solid var(--line);
+}
+.studio-side {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  padding: 20px 20px 26px;
+}
+
+/* Steps */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.step i {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  font-size: 11.5px;
+}
+.step.done {
+  color: var(--ink);
+}
+.step.done i {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: var(--surface);
+}
+.step.now {
+  background: var(--soft);
+  color: var(--ink);
+  font-weight: 600;
+}
+.step.now i {
+  border-color: var(--ink);
+}
+.step-of {
+  display: none;
+  font-weight: 400;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* Document card */
+.doc-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--paper);
+}
+.doc-name {
+  font: 400 27px/1.1 "Instrument Serif", Georgia, serif;
+  margin: 6px 0 12px;
+}
+.doc-specs {
+  margin: 0;
+  display: grid;
+  gap: 9px;
+}
+/* Label over value: the rail is narrow, and a value like "28.6-34.9 mm from the bottom edge" wraps badly beside a label. */
+.doc-specs > div {
+  display: grid;
+  gap: 1px;
+  font-size: 13.5px;
+}
+.doc-specs dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+.doc-specs dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.doc-notes {
+  margin: 12px 0 0;
+  padding-inline-start: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.doc-notes li + li {
+  margin-top: 4px;
+}
+.doc-source {
+  margin: 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.doc-source .source-link {
+  color: var(--accent);
+  font-size: 13px;
+}
+.doc-switch {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.doc-switch summary {
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.doc-switch > :not(summary) {
+  margin-top: 10px;
+}
+.custom-size-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.custom-size-fields .field-label {
+  margin: 0;
+  font-weight: 500;
+}
+.custom-size-fields input {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  min-height: 36px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.doc-brief,
+.doc-more-toggle {
+  display: none;
+}
+.doc-body > :first-child {
+  margin-top: 0;
+}
+
+/* Tools */
+.tools {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.tools > * + * {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.tool-section h3,
+.check-group h3 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.tool-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.tool-buttons .small-button {
+  justify-content: flex-start;
+  min-width: 0;
+  gap: 6px;
+  padding-inline: 8px;
+  white-space: nowrap;
+}
+.adjust summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+.adjust h4 {
+  margin: 18px 0 2px;
+  font-size: 13px;
+}
+.slider-field {
+  margin: 10px 0;
+}
+.slider-title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+.slider-title output {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.slider-bare {
+  margin: 0;
+  flex: 1 1 120px;
+  max-width: 260px;
+  min-width: 0;
+}
+.fit-button {
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* Background colour: three named swatches. The ring is an outline on padded buttons, so nothing clips it. */
+.swatches {
+  margin: 12px 0 8px;
+}
+.swatch-legend {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.swatch {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 64px;
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 12px;
+}
+.swatch:hover:not(:disabled) {
+  background: var(--soft);
+}
+.swatch-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--muted);
+}
+.swatch.active .swatch-dot {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.swatch.active .swatch-name {
+  font-weight: 600;
+}
+.background-note {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+.background-note svg {
+  margin-top: 2px;
+}
+.background-note.warn {
+  color: var(--ink);
+  background: var(--warn-soft);
+  border-radius: 6px;
+  padding: 9px 10px;
+}
+.background-note.warn svg {
+  color: var(--warn);
+}
+
+/* Intake */
+.intake {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-content: start;
+  margin: 28px;
+  padding: 36px 36px 32px;
+  border: 1.5px dashed var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.intake.dragging {
+  border-color: var(--accent);
+}
+.intake h2 {
+  font-size: 44px;
+  line-height: 1.05;
+  font-weight: 400;
+  margin: 6px 0 8px;
+}
+.intake-lede {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.intake-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.intake-actions .primary,
+.intake-actions .secondary {
+  min-height: 48px;
+  padding: 10px 16px;
+  font-size: 15px;
+}
+.intake-extra {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 14px 0 0;
+}
+.intake-privacy {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin: 20px 0 0;
+}
+.intake-rules {
+  border-inline-start: 1px solid var(--line);
+  padding-inline-start: 40px;
+}
+.intake-rules .you-check li {
+  font-size: 14px;
+}
+
+/* Stage */
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  width: 100%;
+  position: sticky;
+  /* The header scrolls away, so a small gap is all the stage needs. */
+  top: 16px;
+}
+.stage-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.stage-actions {
+  margin-inline-start: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.segmented {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 3px;
+}
+.segmented button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  padding: 6px 11px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.segmented button.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.tool-toggle[aria-pressed="true"] {
+  background: var(--soft);
+  border-color: var(--ink);
+}
+.stage-actions .small-button {
+  gap: 6px;
+}
+.frame-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 12px 16px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.frame-note p {
+  margin: 0;
+}
+.frame-note svg {
+  margin-top: 2px;
+  color: var(--muted);
+}
+.frame-note.ok svg {
+  color: var(--ok);
+}
+.frame-note.warn {
+  background: var(--warn-soft);
+  border-color: transparent;
+}
+.frame-note.warn svg {
+  color: var(--warn);
+}
+.frame-note-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  margin-top: 10px;
+}
+.stage-canvas {
+  /* Keeps the whole stage (toolbar, photo, zoom, note) inside the viewport while it sticks. */
+  --maxh: clamp(300px, calc(100vh - 360px), 640px);
+  display: flex;
+  justify-content: center;
+  padding: 22px 16px 12px;
+}
+.canvas-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  max-width: 100%;
+}
+.canvas-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.canvas-frame {
+  position: relative;
+  width: calc(var(--maxh) * var(--ratio, 1));
+  max-width: 100%;
+  aspect-ratio: var(--ratio, 1);
+  /* Photo paper is white in both themes. */
+  background: #fff;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
+}
+.canvas-frame canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* The canvas is the only place that takes over touch gestures. */
+.canvas-frame canvas.interactive {
+  touch-action: none;
+  cursor: grab;
+}
+.canvas-frame canvas.interactive:active {
+  cursor: grabbing;
+}
+/* The sheet's cut guides over the preview, drawn from the same layout the export uses. Paper is white, so the ink is fixed. */
+.sheet-guides {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.sheet-guides line {
+  stroke: #6f7773;
+  stroke-width: 1.2px;
+  vector-effect: non-scaling-stroke;
+}
+.sheet-guides[data-style="edge-to-edge"] line {
+  stroke-dasharray: 6 4;
+}
+.ruler {
+  flex: none;
+  margin-top: -1px;
+  color: var(--muted);
+}
+.ruler text {
+  font-size: 10.5px;
+  fill: currentColor;
+  font-variant-numeric: tabular-nums;
+}
+.ruler-eyes {
+  fill: var(--ok);
+  opacity: 0.6;
+}
+/* Before / after: the original with the crop outlined, and the framed photo, both at the same height. */
+.compare-source {
+  margin: 0;
+  margin-inline-end: 12px;
+  width: calc(var(--maxh) * var(--ratio, 1));
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.compare-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ratio, 1);
+  overflow: hidden;
+  background: #fff;
+}
+.compare-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.compare-crop {
+  position: absolute;
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+  /* The rest of the original is dimmed so the crop reads as the part that is kept. */
+  box-shadow: 0 0 0 999px rgba(15, 33, 39, 0.5);
+}
+.compare-source figcaption,
+.canvas-caption {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.zoom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 10px;
+  padding: 4px 16px 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.zoom-bar .icon-button.small {
+  width: 30px;
+  height: 30px;
+  flex: none;
+}
+.zoom-bar .small-button {
+  flex: none;
+  gap: 6px;
+}
+.zoom-value {
+  flex: none;
+  min-width: 3.4ch;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+.stage-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 0 16px 14px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.stage-hint:empty {
+  display: none;
+}
+.file-name {
+  overflow-wrap: anywhere;
+}
+/* accent-hover is the darker persimmon in light and the lighter peach in dark, so it clears 4.5:1 on the stage in both. */
+.demo-badge {
+  color: var(--accent-hover);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Checks */
+.verdict {
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--soft);
+}
+.verdict.fit {
+  background: var(--ok-soft);
+}
+.verdict.look {
+  background: var(--warn-soft);
+}
+.verdict b {
+  display: block;
+  font-size: 27px;
+  line-height: 1.1;
+  font-weight: 400;
+}
+.verdict p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.check-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.check {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+.check:last-child {
+  border-bottom: 0;
+}
+.check > svg {
+  margin-top: 3px;
+}
+.check.pass > svg {
+  color: var(--ok);
+}
+.check.fail > svg,
+.check.warn > svg {
+  color: var(--warn);
+}
+.check.unknown > svg {
+  color: var(--muted);
+}
+.check-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.check-label {
+  font-weight: 500;
+}
+.check-word {
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.check.fail .check-word,
+.check.warn .check-word {
+  color: var(--warn);
+  font-weight: 600;
+}
+.check-hint {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.check-values {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  margin-top: 1px;
+}
+.check-message,
+.check-tip {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.you-check ul {
+  margin: 0;
+  padding-inline-start: 18px;
+}
+.you-check li {
+  font-size: 13.5px;
+  line-height: 1.45;
+  margin: 7px 0;
+}
+
+/* Below the desktop layout the measurements fold behind one line; the verdict and the download stay in view. */
+.check-fold {
+  border-block: 1px solid var(--line);
+}
+.check-fold > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+.check-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.check-fold > summary em {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--warn);
+}
+.check-fold > summary svg {
+  margin-inline-start: auto;
+  color: var(--muted);
+  transition: transform 0.15s;
+}
+.check-fold[open] > summary svg {
+  transform: rotate(180deg);
+}
+.check-fold[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+.check-details {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.check-fold > .check-group {
+  margin-top: 14px;
+}
+.check-fold > .check-group:last-child {
+  margin-bottom: 14px;
+}
+
+/* Downloads */
+.output-slot {
+  min-width: 0;
+}
+.export-success {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--soft);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+.export-success strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.support-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Documents that cannot be made at home */
+.studio-simple {
+  max-width: 760px;
+  padding: 28px 0 24px;
+}
+.studio-pick {
+  margin-bottom: 28px;
+  max-width: 460px;
+}
+.studio-pick-label {
+  margin: 0 0 6px;
+}
+
+/* Two columns from 961px: steps and the one-line document over the photo and tools on the left, verdict and download on the right. */
+@media (max-width: 1180px) {
+  .studio-grid {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    grid-template-rows: auto auto 1fr;
+    column-gap: 20px;
+    row-gap: 14px;
+    align-items: start;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+  }
+  .studio-top {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: 0;
+    gap: 10px;
+  }
+  .studio-stage {
+    grid-column: 1;
+    grid-row: 2;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .studio-tools {
+    grid-column: 1;
+    grid-row: 3;
+    padding: 0;
+  }
+  .studio-side {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    padding: 0;
+  }
+  .studio-grid.is-empty {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+  }
+  .studio-grid.is-empty .studio-stage {
+    grid-column: 1;
+  }
+  .studio-top .steps {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+  .stage {
+    position: static;
+  }
+  .stage-canvas {
+    --maxh: clamp(300px, calc(100vh - 300px), 620px);
+  }
+
+  /* The document folds into one line: key numbers, then two disclosures. The heading above already names the document. */
+  .doc-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 18px;
+    padding: 6px 14px;
+  }
+  .doc-card > .label,
+  .doc-card > .doc-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .doc-brief {
+    display: block;
+    flex: 1 1 260px;
+    margin: 0;
+    padding-block: 8px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .doc-more-toggle {
+    display: inline-flex;
+    min-height: 40px;
+  }
+  .doc-body:not(.show) {
+    display: none;
+  }
+  .doc-body {
+    order: 5;
+    flex: 1 0 100%;
+    margin-top: 2px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+  }
+  .doc-specs {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px 18px;
+  }
+  .doc-switch {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .doc-switch summary {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+  }
+  .doc-switch[open] {
+    order: 6;
+    flex: 1 0 100%;
+    padding-block: 4px 12px;
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* Before a photo on a wide screen there is nothing to build a rail for: the steps and the one-line document sit over one big "Add your photo". */
+@media (min-width: 1181px) {
+  .studio-grid.is-empty {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: 14px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+  }
+  .studio-grid.is-empty .studio-top {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0;
+    gap: 10px;
+  }
+  .studio-grid.is-empty .studio-top .steps {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+  .studio-grid.is-empty .studio-stage {
+    grid-column: 1;
+    grid-row: 2;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  /* The document folds into one line: key numbers, then two disclosures. The heading above already names the document. */
+  .studio-grid.is-empty .doc-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 18px;
+    padding: 6px 14px;
+  }
+  .studio-grid.is-empty .doc-card > .label,
+  .studio-grid.is-empty .doc-card > .doc-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .studio-grid.is-empty .doc-brief {
+    display: block;
+    flex: 1 1 260px;
+    margin: 0;
+    padding-block: 8px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .studio-grid.is-empty .doc-more-toggle {
+    display: inline-flex;
+    min-height: 40px;
+  }
+  .studio-grid.is-empty .doc-body:not(.show) {
+    display: none;
+  }
+  .studio-grid.is-empty .doc-body {
+    order: 5;
+    flex: 1 0 100%;
+    margin-top: 2px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+  }
+  .studio-grid.is-empty .doc-specs {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px 18px;
+  }
+  .studio-grid.is-empty .doc-switch {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .studio-grid.is-empty .doc-switch summary {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+  }
+  .studio-grid.is-empty .doc-switch[open] {
+    order: 6;
+    flex: 1 0 100%;
+    padding-block: 4px 12px;
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* One column: document, photo, verdict and download, checks, then tools. */
+@media (max-width: 960px) {
+  .studio-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    row-gap: 18px;
+  }
+  .studio-top,
+  .studio-stage,
+  .studio-tools,
+  .studio-side {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .studio-side {
+    gap: 18px;
+  }
+  .stage-canvas {
+    --maxh: min(66vh, 640px);
+  }
+  .tool-buttons {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .studio-title {
+    font-size: 32px;
+  }
+  .studio-sub {
+    display: none;
+  }
+  .studio-head {
+    padding: 14px 0 10px;
+  }
+  .studio-side {
+    gap: 16px;
+  }
+  /* The status line under the photo, not above it, so the photo starts high on a phone. */
+  .frame-note--after {
+    order: 1;
+  }
+  .stage-foot {
+    order: 2;
+  }
+}
+@media (max-width: 820px) {
+  .studio-page {
+    padding: 0 16px;
+  }
+  .stage-canvas {
+    padding: 14px 10px 8px;
+    --maxh: min(62vh, 520px);
+  }
+  .stage-toolbar {
+    padding: 8px 10px;
+  }
+  .frame-note {
+    margin: 10px 10px 0;
+  }
+  .intake {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin: 0;
+    padding: 22px 18px;
+    border: 0;
+  }
+  .intake h2 {
+    font-size: 36px;
+  }
+  .intake-rules {
+    border-inline-start: 0;
+    border-top: 1px solid var(--line);
+    padding-inline-start: 0;
+    padding-top: 18px;
+  }
+}
+@media (min-width: 821px) and (max-width: 960px) {
+  .intake {
+    margin: 20px;
+  }
+}
+@media (min-width: 961px) and (max-width: 1180px) {
+  .intake {
+    margin: 20px;
+    padding: 28px;
+    gap: 28px;
+  }
+  .intake-rules {
+    padding-inline-start: 28px;
+  }
+}
+/* Phones: steps as dots with the current label and "3 of 4", the toolbar on one row of icon buttons, the zoom on one row. */
+@media (max-width: 560px) {
+  .step:not(.now) > span:not(.visually-hidden) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .step {
+    padding: 3px 6px;
+  }
+  .step-of {
+    display: inline;
+  }
+  .studio-top {
+    gap: 6px;
+  }
+  .studio-top .steps {
+    flex-wrap: nowrap;
+    gap: 2px;
+  }
+  .stage-toolbar {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  .btn-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .segmented button {
+    justify-content: center;
+    min-width: 44px;
+    min-height: 40px;
+    padding: 0 8px;
+  }
+  .stage-actions {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  .stage-actions .small-button,
+  .zoom-bar .small-button {
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+  .zoom-bar {
+    gap: 4px;
+    padding-inline: 10px;
+  }
+  .zoom-label {
+    display: none;
+  }
+  .zoom-bar .icon-button.small {
+    width: 44px;
+    height: 44px;
+  }
+  .slider-bare {
+    max-width: none;
+  }
+  .zoom-value {
+    min-width: 3.6ch;
+  }
+  .intake-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .frame-note-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+  }
+  .frame-note-actions .text-button {
+    justify-content: center;
+  }
+  .doc-card {
+    gap: 0 12px;
+  }
+  .doc-brief {
+    flex-basis: 100%;
+    padding-block: 8px 0;
+  }
+}
+/* Touch targets of at least 44px wherever a finger is the pointer. */
+@media (max-width: 760px), (pointer: coarse) {
+  .primary,
+  .secondary,
+  .small-button {
+    min-height: 44px;
+  }
+  .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+  .text-button,
+  .doc-more-toggle {
+    min-height: 44px;
+  }
+  .check-control {
+    min-height: 44px;
+  }
+  .adjust summary,
+  .doc-switch summary {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .segmented button {
+    min-height: 40px;
+  }
+  .range {
+    min-height: 44px;
+  }
+  .op-tab {
+    min-height: 44px;
+  }
+}
+
+@media (min-width: 961px) and (max-width: 1180px) {
+  /* The toolbar has to fit in a 600px stage on one row. */
+  .segmented button svg {
+    display: none;
+  }
+}
+/* Both card disclosures read alike: bold label, chevron that turns when open. */
+.doc-more-toggle {
+  gap: 6px;
+  font-weight: 600;
+  font-size: 13.5px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.doc-more-toggle svg {
+  transition: transform 0.15s;
+}
+.doc-more-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.doc-switch summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+.doc-switch summary::-webkit-details-marker {
+  display: none;
+}
+.doc-switch summary::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform 0.15s;
+}
+.doc-switch[open] summary::after {
+  transform: rotate(180deg);
+}
+@media (max-width: 560px) {
+  /* Photo near the top of the first screen: a slim head, a one-line step, a compact card and toolbar. */
+  .studio-head {
+    padding: 8px 0 4px;
+  }
+  .studio-grid {
+    row-gap: 10px;
+  }
+  .step {
+    padding: 1px 6px;
+    font-size: 13px;
+  }
+  .step i {
+    width: 20px;
+    height: 20px;
+  }
+  .doc-card {
+    padding-block: 0;
+  }
+  .doc-brief {
+    padding-block: 6px 0;
+  }
+  .stage-canvas {
+    padding-top: 6px;
+  }
+  .zoom-bar .small-button,
+  .zoom-bar .icon-button.small {
+    border-radius: 50%;
+  }
+}

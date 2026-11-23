@@ -1,0 +1,170 @@
+import type { ReactNode } from "react";
+import type { DocumentSpec } from "../../core/documents";
+import { LOCALES, type Locale } from "../../i18n";
+import { localizeDocument } from "../../i18n/localize";
+import { strings } from "../../i18n/strings";
+import {
+  canMakeAtHome,
+  checkNote,
+  checkedDate,
+  docPath,
+  fmtDate,
+  specSummary,
+  type Faq,
+} from "./content";
+import "./pages.css";
+
+export function PageShell({
+  id,
+  eyebrow,
+  title,
+  lede,
+  actions,
+  aside,
+  crumbs,
+  children,
+  locale = "en",
+}: {
+  id: string;
+  eyebrow?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  /** Buttons under the lede (the first thing to do on the page). */
+  actions?: ReactNode;
+  /** A figure beside the heading on wide screens, under the actions on narrow ones. */
+  aside?: ReactNode;
+  crumbs?: { href?: string; label: string }[];
+  children: ReactNode;
+  locale?: Locale;
+}) {
+  const t = strings(locale).shell;
+  return (
+    <main
+      id="main"
+      className="content-page pg"
+      data-pp-page={id}
+      lang={LOCALES[locale].hreflang}
+      dir={LOCALES[locale].dir}
+    >
+      {crumbs && (
+        <nav className="pg-crumbs" aria-label={t.breadcrumb}>
+          <ol>
+            <li>
+              <a href="/" hrefLang={locale === "en" ? undefined : "en"}>
+                {t.home}
+              </a>
+            </li>
+            {crumbs.map((c) => (
+              <li key={c.label}>
+                {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      <header className={`pg-head${aside ? " pg-head-aside" : ""}`}>
+        <div className="pg-head-text">
+          {eyebrow && <div className="eyebrow pg-eyebrow">{eyebrow}</div>}
+          <h1 className="page-title pg-title">{title}</h1>
+          {lede && <p className="lede pg-lede">{lede}</p>}
+          {actions}
+        </div>
+        {aside}
+      </header>
+      <div className="pg-body">{children}</div>
+    </main>
+  );
+}
+
+export function Section({
+  title,
+  id,
+  children,
+}: {
+  title: string;
+  id?: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="pg-section" aria-labelledby={id}>
+      <h2 id={id}>{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+export function SpecTable({
+  caption,
+  rows,
+}: {
+  caption: string;
+  rows: [string, ReactNode][];
+}) {
+  return (
+    <table className="pg-table pg-spec">
+      <caption>{caption}</caption>
+      <tbody>
+        {rows.map(([k, v]) => (
+          <tr key={k}>
+            <th scope="row">{k}</th>
+            <td>{v}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+export function FaqList({ items }: { items: Faq[] }) {
+  return (
+    <div className="pg-faq">
+      {items.map((f) => (
+        <div key={f.q} className="pg-faq-item">
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function DocLinks({ docs, locale = "en" }: { docs: DocumentSpec[]; locale?: Locale }) {
+  const f = strings(locale).fmt;
+  return (
+    <ul className="pg-doclinks">
+      {docs.map((d) => (
+        <li key={d.id}>
+          <a href={docPath(d, locale)}>{localizeDocument(d, locale).name}</a>
+          <span>
+            {specSummary(d, locale)}
+            {!canMakeAtHome(d) && <em className="pg-tag">{f.notAtHome}</em>}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function Sources({ doc, locale = "en" }: { doc: DocumentSpec; locale?: Locale }) {
+  const f = strings(locale).fmt;
+  return (
+    <ul className="pg-sources">
+      {doc.sources.map((s) => (
+        <li key={s.url}>
+          <a href={s.url} target="_blank" rel="noreferrer">
+            {s.title}
+          </a>
+          <span>
+            {f.sourceLine(s.kind === "primary" ? f.sourcePrimary : f.sourceSecondary, fmtDate(s.checkedAt, locale))}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function Disclaimer({ locale = "en" }: { locale?: Locale }) {
+  return <p className="pg-note">{checkNote(locale)}</p>;
+}
+
+export { checkedDate };

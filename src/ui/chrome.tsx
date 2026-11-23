@@ -1,0 +1,220 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import { HUB_URL, SITE_NAME, SUPPORT_URL, UPSTREAM_NAME, UPSTREAM_REPO } from "../config";
+import { getDocument } from "../core/documents";
+import { DEFAULT_LOCALE, LOCALES, localeOf, switchTargets, withLocale } from "../i18n";
+import { localizeDocument } from "../i18n/localize";
+import { strings } from "../i18n/strings";
+
+/** Documents linked from every footer: sitewide links to the pages people search for most. */
+const FOOTER_DOCS = [
+  "us-passport",
+  "uk-passport",
+  "schengen-visa",
+  "rw-passport",
+  "cd-passport",
+  "au-passport",
+  "us-visa",
+];
+
+/**
+ * The app shell (App.tsx) renders the header and footer once around every route. A page that also
+ * renders <SiteHeader/> or <SiteFooter/> inside the shell gets nothing extra, so nothing shows twice.
+ * Rendered on its own (for example by a prerender script), they draw themselves.
+ */
+export const ChromeContext = createContext(false);
+
+type Theme = "light" | "dark";
+
+/** The theme the page is showing right now: an explicit choice, otherwise the system setting. */
+function currentTheme(): Theme {
+  if (typeof document === "undefined") return "light";
+  const set = document.documentElement.dataset.theme;
+  if (set === "light" || set === "dark") return set;
+  return typeof window !== "undefined" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
+export function BrandMark() {
+  return (
+    <svg className="brand-mark" viewBox="0 0 34 38" fill="none" aria-hidden="true">
+      <path
+        d="M2 11V3h8M24 3h8v8M32 27v8h-8M10 35H2v-8"
+        stroke="currentColor"
+        strokeWidth="2.3"
+      />
+      <ellipse
+        cx="17"
+        cy="14"
+        rx="5.7"
+        ry="6.8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M7 30c.8-6 4.5-8.5 10-8.5S26.2 24 27 30"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
+function ThemeToggle({ locale }: { locale: ReturnType<typeof localeOf> }) {
+  const t = strings(locale).chrome;
+  // Server render and first paint follow the system setting through CSS; the button label
+  // catches up once the page is running in the browser.
+  const [theme, setTheme] = useState<Theme>("light");
+  useEffect(() => setTheme(currentTheme()), []);
+  const flip = () => {
+    const next: Theme = currentTheme() === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    setTheme(next);
+  };
+  return (
+    <button
+      className="icon-button"
+      aria-label={
+        theme === "dark" ? t.themeToLight : t.themeToDark
+      }
+      onClick={flip}
+    >
+      {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
+  );
+}
+
+/** `lang`/`hrefLang` for a link whose text is in the page language but whose target is English-only. */
+const toEnglish = (locale: string) =>
+  locale === DEFAULT_LOCALE ? {} : { hrefLang: LOCALES[DEFAULT_LOCALE].hreflang };
+
+/**
+ * `path` is the page being shown (normalized, e.g. "/es/documents/"); it selects the language of
+ * the chrome and the target of the language switcher.
+ */
+export function SiteHeader({ force = false, path = "/" }: { force?: boolean; path?: string } = {}) {
+  if (useContext(ChromeContext) && !force) return null;
+  const locale = localeOf(path);
+  const t = strings(locale).chrome;
+  const other = switchTargets(path).filter((x) => !x.current);
+  return (
+    <header className="site-header">
+      <div className="wrap">
+        <a href="/" className="brand" aria-label={t.homeLabel} {...toEnglish(locale)}>
+          <BrandMark />
+          <span>
+            {SITE_NAME}
+          </span>
+        </a>
+        <nav className="site-nav" aria-label={t.mainNav}>
+          <a href={withLocale("/documents/", locale)}>{t.documents}</a>
+          <a className="nav-extra" href={withLocale("/print-passport-photos/", locale)}>
+            {t.printShort}
+          </a>
+          <a className="nav-extra" href="/about/" {...toEnglish(locale)}>
+            {t.about}
+          </a>
+          <a href={SUPPORT_URL} {...toEnglish(locale)}>
+            {t.support}
+          </a>
+          {other.map((x) => (
+            <a
+              key={x.locale}
+              className="nav-extra lang-link"
+              href={x.path}
+              lang={LOCALES[x.locale].hreflang}
+              hrefLang={LOCALES[x.locale].hreflang}
+            >
+              {x.name}
+            </a>
+          ))}
+          <ThemeToggle locale={locale} />
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+export function SiteFooter({ force = false, path = "/" }: { force?: boolean; path?: string } = {}) {
+  if (useContext(ChromeContext) && !force) return null;
+  const locale = localeOf(path);
+  const t = strings(locale).chrome;
+  const en = toEnglish(locale);
+  return (
+    <footer className="site-footer">
+      <div className="wrap">
+        <nav className="footer-links" aria-label={t.footerNav}>
+          <a href={withLocale("/documents/", locale)}>{t.documents}</a>
+          <a href={withLocale("/print-passport-photos/", locale)}>{t.printGuide}</a>
+          <a href="/about/" {...en}>
+            {t.about}
+          </a>
+          <a href="/privacy/" {...en}>
+            {t.privacy}
+          </a>
+          <a href="/terms/" {...en}>
+            {t.terms}
+          </a>
+          <a href="/accessibility/" {...en}>
+            {t.accessibility}
+          </a>
+          <a href="/contact/" {...en}>
+            Contact
+          </a>
+          <a href={SUPPORT_URL} {...en}>
+            {t.support}
+          </a>
+          <a href={HUB_URL}>web-free.site</a>
+          <a href="/llms.txt" {...en}>
+            {t.forAgents}
+          </a>
+        </nav>
+        <nav className="footer-links footer-popular" aria-label={t.popular}>
+          <span>{t.popular}:</span>
+          {FOOTER_DOCS.map((id) => getDocument(id)).map(
+            (d) =>
+              d && (
+                <a key={d.id} href={withLocale(`/${d.id}-photo/`, locale)}>
+                  {localizeDocument(d, locale).name}
+                </a>
+              ),
+          )}
+          <a href={withLocale("/2x2-photo/", locale)}>{strings(locale).index.links.twoByTwo}</a>
+          <a href={withLocale("/35x45-photo/", locale)}>{strings(locale).index.links.thirtyFive}</a>
+          <a href={withLocale("/600x600-photo/", locale)}>{strings(locale).index.links.sixHundred}</a>
+          <a href={withLocale("/photo-under-50kb/", locale)}>{strings(locale).index.links.under50}</a>
+        </nav>
+        <nav className="footer-links footer-lang" aria-label={t.languageLabel}>
+          <span>{t.languageLabel}:</span>
+          {switchTargets(path).map((x) =>
+            x.current ? (
+              <span key={x.locale} lang={LOCALES[x.locale].hreflang} aria-current="true">
+                {x.name}
+              </span>
+            ) : (
+              <a
+                key={x.locale}
+                href={x.path}
+                lang={LOCALES[x.locale].hreflang}
+                hrefLang={LOCALES[x.locale].hreflang}
+              >
+                {x.name}
+              </a>
+            ),
+          )}
+        </nav>
+        <p className="footer-legal">{t.legal}</p>
+        <p className="footer-legal">
+          Based on{" "}
+          <a href={UPSTREAM_REPO} target="_blank" rel="noreferrer">
+            {UPSTREAM_NAME}
+          </a>{" "}
+          (MIT). MediaPipe and pdf-lib are credited in third-party notices.
+        </p>
+        {t.englishOnlyNote && <p className="footer-legal">{t.englishOnlyNote}</p>}
+      </div>
+    </footer>
+  );
+}

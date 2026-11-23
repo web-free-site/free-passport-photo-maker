@@ -1,0 +1,447 @@
+/* Scoped to the static pages. Only tokens from styles.css are used. */
+/* Same container as the site header (.wrap: 1360px, 32px gutters) so the page starts at the logo's
+   left edge; text, tables and FAQ share one 720px reading column inside it. */
+.content-page.pg {
+  max-width: 1360px;
+  width: 100%;
+  margin: 40px auto 24px;
+  padding: 0 32px;
+}
+.pg-head {
+  display: grid;
+  grid-template-columns: minmax(0, 720px);
+}
+.pg-head-text {
+  min-width: 0;
+}
+.pg-body {
+  max-width: 720px;
+}
+@media (min-width: 980px) {
+  .pg-head-aside {
+    grid-template-columns: minmax(0, 720px) minmax(240px, 340px);
+    column-gap: 72px;
+    align-items: start;
+  }
+}
+.pg-crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  list-style: none;
+  margin: 0 0 30px;
+  padding: 0;
+  font-size: 12px;
+}
+.pg-crumbs li {
+  line-height: 1.6;
+  font-size: 12px;
+}
+.pg-crumbs li + li::before {
+  content: "/";
+  margin: 0 9px;
+  color: var(--line);
+}
+.pg-crumbs a {
+  color: var(--muted);
+}
+.pg-crumbs a:hover {
+  color: var(--accent);
+}
+.pg-crumbs span {
+  color: var(--ink);
+}
+.content-page.pg h1.pg-title {
+  font-size: clamp(38px, 5.6vw, 54px);
+  line-height: 1.08;
+  margin: 12px 0 22px;
+  text-wrap: balance;
+}
+.pg-lede {
+  max-width: 700px;
+  line-height: 1.75;
+}
+.pg-section {
+  margin-top: 46px;
+}
+.content-page.pg h2 {
+  font-size: clamp(28px, 3.6vw, 34px);
+  line-height: 1.15;
+  margin: 0 0 14px;
+}
+.content-page.pg h3 {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.content-page.pg p,
+.content-page.pg li {
+  line-height: 1.75;
+  font-size: 15px;
+  max-width: 720px;
+}
+.content-page.pg .pg-note {
+  font-size: 13px;
+  color: var(--muted);
+  border-inline-start: 2px solid var(--accent);
+  padding: 2px 0;
+  padding-inline-start: 14px;
+  margin: 20px 0;
+}
+.pg-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin: 26px 0 6px;
+}
+.pg-cta .primary,
+.pg-actions .primary {
+  text-decoration: none;
+}
+.pg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin: 26px 0 0;
+}
+.pg-actions .pg-tag {
+  margin: 0;
+}
+.content-page.pg .pg-actions-note {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 320px;
+  line-height: 1.5;
+}
+.pg-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pg-jump:hover {
+  color: var(--accent);
+}
+/* Arrows that point along the reading direction turn around in right-to-left pages. */
+[dir="rtl"] .pg-arrow,
+[dir="rtl"] .content-page.pg .lucide-arrow-right {
+  transform: scaleX(-1);
+}
+
+/* To-scale frame diagram (Diagram.tsx). The drawing has no text and never flips. */
+.pg-figure {
+  margin: 30px 0 0;
+  padding: 18px 20px 16px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.pgd-svg {
+  display: block;
+  height: 220px;
+  width: auto;
+  max-width: 100%;
+}
+.pgd-frame {
+  fill: var(--surface);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.pgd-body,
+.pgd-head {
+  fill: var(--line);
+  stroke: var(--muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.pgd-eyeband {
+  fill: var(--accent);
+  opacity: 0.28;
+}
+.pgd-eye {
+  fill: var(--ink);
+}
+.pgd-bracket line {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.pgd-bracket .pgd-strong {
+  stroke-width: 3;
+}
+.content-page.pg .pgd-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: stretch;
+}
+.content-page.pg .pgd-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.pgd-legend b {
+  color: var(--ink);
+  font-weight: 500;
+}
+.pgd-sw {
+  flex: none;
+  width: 22px;
+  height: 10px;
+  display: inline-block;
+}
+.pgd-sw-head {
+  height: 0;
+  border-top: 3px solid var(--accent);
+}
+.pgd-sw-eye {
+  background: var(--accent);
+  opacity: 0.35;
+}
+.pg-figure figcaption {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  align-self: stretch;
+}
+.pg-cta .pg-note {
+  margin: 0;
+}
+.pg-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0 8px;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.pg-table caption {
+  text-align: start;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.35px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 0 8px;
+  caption-side: top;
+}
+.pg-table th,
+.pg-table td {
+  text-align: start;
+  vertical-align: top;
+  padding: 11px 14px;
+  border-top: 1px solid var(--line);
+  line-height: 1.6;
+  color: var(--ink);
+  font-weight: 400;
+}
+.pg-spec th {
+  width: 30%;
+  color: var(--muted);
+  font-weight: 500;
+}
+.pg-list thead th {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-top: 0;
+  background: var(--soft);
+}
+.pg-list {
+  table-layout: fixed;
+}
+.pg-list tbody th {
+  font-weight: 500;
+  width: 40%;
+}
+.pg-list.pg-auto {
+  table-layout: auto;
+}
+.pg-list.pg-auto tbody th {
+  width: auto;
+}
+.pg-list .pg-nowrap,
+.pg-list th.pg-nowrap {
+  white-space: nowrap;
+}
+.pg-list a,
+.pg-spec a {
+  color: var(--ink);
+}
+.pg-list a:hover {
+  color: var(--accent);
+}
+.pg-table-wrap {
+  overflow-x: auto;
+}
+.pg-tag {
+  display: inline-block;
+  margin-inline-start: 8px;
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  font-style: normal;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.content-page.pg .pg-rules,
+.content-page.pg .pg-steps {
+  padding-left: 0;
+  padding-inline-start: 22px;
+  margin: 12px 0;
+}
+.pg-rules li,
+.pg-steps li {
+  margin-bottom: 6px;
+}
+.content-page.pg .pg-sources,
+.content-page.pg .pg-doclinks,
+.content-page.pg .pg-links {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.pg-sources li,
+.pg-doclinks li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+}
+.pg-sources li:last-child,
+.pg-doclinks li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.pg-sources span,
+.pg-doclinks span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.pg-sources a,
+.pg-doclinks a {
+  color: var(--ink);
+  font-weight: 500;
+}
+.pg-sources a:hover,
+.pg-doclinks a:hover {
+  color: var(--accent);
+}
+.pg-faq-item {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.pg-faq-item p {
+  margin: 0;
+}
+.pg-faq-item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.pg-country {
+  margin-top: 34px;
+}
+.pg-country h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.pg-country h2 small {
+  font: 500 12px "DM Sans", sans-serif;
+  color: var(--muted);
+}
+/* The heading already names the country: the table keeps its caption for screen readers only. */
+.pg-country .pg-table caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.pg-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.pg-links a {
+  color: var(--ink);
+}
+.pg-links a:hover {
+  color: var(--accent);
+}
+.pg-tiers {
+  margin-top: 8px;
+}
+@media (max-width: 820px) {
+  .content-page.pg {
+    padding: 0 16px;
+    margin-top: 24px;
+  }
+  .pg-figure {
+    margin-top: 24px;
+  }
+  .pgd-svg {
+    height: 200px;
+  }
+}
+@media (max-width: 640px) {
+  .pg-spec th,
+  .pg-spec td {
+    display: block;
+    width: auto;
+  }
+  .pg-spec th {
+    padding-bottom: 0;
+    font-size: 12px;
+  }
+  .pg-spec td {
+    border-top: 0;
+    padding-top: 2px;
+  }
+  .pg-list {
+    font-size: 13px;
+  }
+  .pg-list th,
+  .pg-list td {
+    padding: 9px 10px;
+  }
+}
+.content-page.pg .pg-prose h2 {
+  margin-top: 40px;
+}
+.content-page.pg .pg-prose h2:first-child {
+  margin-top: 8px;
+}
+.pg-tiers .support-tiers {
+  margin-top: 16px;
+}
+
+/* Language switcher (chrome.tsx). The footer version lists every language; the current one is bold. */
+.footer-lang [aria-current="true"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+.site-nav .lang-link {
+  white-space: nowrap;
+}
