@@ -51,7 +51,17 @@ const BLOCK = `
       <li><a href="https://free-image-upscaler.web-free.site/?ref=${REF}">Free Image Upscaler</a></li>
       <li><strong>Free Passport Photo Maker</strong></li>
       <li><a href="https://free-png-to-svg.web-free.site/?ref=${REF}">Free PNG to SVG Converter</a></li>
-    </ul></div>
+    
+              <li><a href="https://free-meme-generator.web-free.site/?ref=passport-photo-maker">Free Meme Generator</a></li>
+            
+              <li><a href="https://free-color-picker.web-free.site/?ref=passport-photo-maker">Free Color Picker</a></li>
+            
+              <li><a href="https://free-gif-maker.web-free.site/?ref=passport-photo-maker">Free GIF Maker</a></li>
+            
+              <li><a href="https://free-photo-editor.web-free.site/?ref=passport-photo-maker">Free Photo Editor</a></li>
+            
+              <li><a href="https://free-logo-maker.web-free.site/?ref=passport-photo-maker">Free Logo Maker</a></li>
+            </ul></div>
     <div class="wf-mt-cat"><h3>Calculators &amp; currency</h3><ul>
       <li><a href="https://free-online-calculator.web-free.site/?ref=${REF}">Free Online Calculator</a></li>
       <li><a href="https://free-currency-converter.web-free.site/?ref=${REF}">Free Currency Converter</a></li>
@@ -69,7 +79,9 @@ const BLOCK = `
       <li><a href="https://free-text-to-speech.web-free.site/?ref=${REF}">Free Text to Speech</a></li>
       <li><a href="https://free-speech-to-text.web-free.site/?ref=${REF}">Free Speech to Text</a></li>
       <li><a href="https://free-diff-checker.web-free.site/?ref=${REF}">Free Diff Checker</a></li>
-    </ul></div>
+    
+              <li><a href="https://free-citation-generator.web-free.site/?ref=passport-photo-maker">Free Citation Generator</a></li>
+            </ul></div>
     <div class="wf-mt-cat"><h3>Audio &amp; video</h3><ul>
       <li><a href="https://free-video-to-mp3.web-free.site/?ref=${REF}">Free Video to MP3 Converter</a></li>
       <li><a href="https://free-mp3-cutter.web-free.site/?ref=${REF}">Free MP3 Cutter</a></li>
@@ -77,7 +89,9 @@ const BLOCK = `
       <li><a href="https://free-video-compressor.web-free.site/?ref=${REF}">Free Video Compressor</a></li>
       <li><a href="https://free-video-to-gif.web-free.site/?ref=${REF}">Free Video to GIF Converter</a></li>
       <li><a href="https://free-audio-converter.web-free.site/?ref=${REF}">Free Audio Converter</a></li>
-    </ul></div>
+    
+              <li><a href="https://free-video-converter.web-free.site/?ref=passport-photo-maker">Free Video Converter</a></li>
+            </ul></div>
     <div class="wf-mt-cat"><h3>Files</h3><ul>
       <li><a href="https://free-zip-tool.web-free.site/?ref=${REF}">Free ZIP Tool</a></li>
     </ul></div>
@@ -87,7 +101,7 @@ const BLOCK = `
     </ul></div>
     <div class="wf-mt-cat"><h3>Security &amp; passwords</h3><ul>
       <li><a href="https://free-password-generator.web-free.site/?ref=${REF}">Free Password Generator</a></li>
-    </ul></div>
+    </ul></div><div class="wf-mt-cat"><h3>Time</h3><ul><li><a href="https://free-time-zone-converter.web-free.site/?ref=passport-photo-maker">Free Time Zone Converter</a></li></ul></div><div class="wf-mt-cat"><h3>Drawing</h3><ul><li><a href="https://free-whiteboard.web-free.site/?ref=passport-photo-maker">Free Whiteboard</a></li></ul></div><div class="wf-mt-cat"><h3>Random &amp; pickers</h3><ul><li><a href="https://free-spin-wheel.web-free.site/?ref=passport-photo-maker">Free Spin Wheel</a></li></ul></div>
   </div>
 </aside>
 `;
