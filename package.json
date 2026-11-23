@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4319",
-    "build": "tsc --noEmit && vite build && tsx scripts/prerender.ts && node scripts/inject-more-tools.mjs",
+    "build": "tsc --noEmit && vite build && tsx scripts/prerender.ts && node scripts/inject-more-tools.mjs && node scripts/inject-hub-legal.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4319",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/core/*.test.ts",
